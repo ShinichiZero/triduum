@@ -1,0 +1,402 @@
+/* ===================================================
+   TRIDUUM BREVIARY — Style Sheet
+   Layout: Inlay & Dent (recessed prayer sections)
+   Typography:
+     Humanist Sans  → prayer text, headings
+     Monospace      → rubrics, citations, times
+   =================================================== */
+
+/* ---------- Google Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ---------- Custom Properties ---------- */
+:root {
+  --bg:            #1c1e22;
+  --bg-mid:        #222529;
+  --bg-raised:     #2a2d33;
+  --inlay-bg:      #18191d;
+  --inlay-bg-alt:  #1d1f24;
+
+  --border-light:  #3a3e47;
+  --border-dark:   #0e0f11;
+  --border-accent: #4a4e5a;
+
+  --text-primary:  #ddd5c0;
+  --text-secondary:#a89f8c;
+  --text-rubric:   #b07a3e;
+  --text-citation: #7a8a6a;
+  --text-heading:  #e8dfc8;
+  --text-nav:      #c8c0b0;
+
+  --accent-gold:   #c8a84b;
+  --accent-dim:    #7a6830;
+  --nav-active-bg: #1c1e22;
+  --nav-hover-bg:  #2e3138;
+
+  --shadow-inlay:
+    inset 0 2px 6px rgba(0,0,0,.55),
+    inset 0 1px 2px rgba(0,0,0,.35);
+  --shadow-raised:
+    0 1px 0 rgba(255,255,255,.06);
+
+  --font-sans: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Mono', 'Consolas', monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 7px;
+  --radius-lg: 10px;
+
+  --max-width: 780px;
+  --gap: 1.5rem;
+}
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.7;
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+/* ---------- Site Header ---------- */
+.site-header {
+  background: var(--bg-mid);
+  border-bottom: 1px solid var(--border-dark);
+  box-shadow: var(--shadow-raised), 0 2px 8px rgba(0,0,0,.4);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1rem 1.25rem 0;
+}
+
+.site-title {
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: .65rem;
+}
+
+.site-title span {
+  color: var(--accent-gold);
+  margin-right: .4em;
+}
+
+/* ---------- Day Navigation ---------- */
+.day-nav {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-light);
+}
+
+.day-nav li { flex: 1; }
+
+.day-nav button {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text-nav);
+  background: transparent;
+  border: none;
+  border-top: 2px solid transparent;
+  padding: .65rem .5rem;
+  cursor: pointer;
+  transition: color .18s, background .18s, border-color .18s;
+  white-space: nowrap;
+}
+
+.day-nav button:hover {
+  background: var(--nav-hover-bg);
+  color: var(--text-heading);
+}
+
+.day-nav button.active {
+  color: var(--accent-gold);
+  border-top-color: var(--accent-gold);
+  background: var(--nav-active-bg);
+}
+
+/* ---------- Main Content ---------- */
+.main-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--gap) 1.25rem;
+}
+
+/* ---------- Day Panels ---------- */
+.day-panel { display: none; }
+.day-panel.active { display: block; }
+
+/* ---------- Day Heading ---------- */
+.day-heading {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 1rem;
+}
+
+.day-heading h1 {
+  font-size: 1.55rem;
+  font-weight: 300;
+  color: var(--text-heading);
+  letter-spacing: .03em;
+}
+
+.day-heading .liturgical-date {
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--text-secondary);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-top: .3rem;
+}
+
+/* ---------- Hour Block ---------- */
+.hour-block {
+  margin-bottom: 2.5rem;
+}
+
+.hour-title {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text-rubric);
+  margin-bottom: 1rem;
+  padding-left: .1em;
+}
+
+.hour-title::before {
+  content: '⟩ ';
+  opacity: .7;
+}
+
+/* ---------- Prayer Section (Inlay Card) ---------- */
+.prayer-section {
+  background: var(--inlay-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-dark);
+  /* Etched border effect: lighter top/left, darker bottom/right */
+  border-top-color: var(--border-accent);
+  border-left-color: var(--border-accent);
+  border-bottom-color: #0a0b0d;
+  border-right-color: #0a0b0d;
+  box-shadow: var(--shadow-inlay);
+  padding: 1.25rem 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.prayer-section + .prayer-section {
+  margin-top: .75rem;
+}
+
+/* Alternating inlay shade for visual rhythm */
+.prayer-section:nth-child(even) {
+  background: var(--inlay-bg-alt);
+}
+
+/* ---------- Section Title & Subtitle ---------- */
+.section-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: .2rem;
+}
+
+.section-subtitle {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  color: var(--text-secondary);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: .9rem;
+}
+
+/* ---------- Rubric ---------- */
+.rubric {
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  color: var(--text-rubric);
+  font-style: italic;
+  margin-bottom: .8rem;
+  line-height: 1.5;
+}
+
+/* ---------- Antiphon ---------- */
+.antiphon {
+  border-left: 2px solid var(--accent-dim);
+  padding-left: .9rem;
+  margin: .9rem 0;
+  font-style: italic;
+  font-size: .95rem;
+  color: var(--text-secondary);
+}
+
+.antiphon-label {
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent-dim);
+  display: block;
+  margin-bottom: .2rem;
+  font-style: normal;
+}
+
+/* ---------- Prayer Text ---------- */
+.prayer-text {
+  font-size: .975rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+.prayer-text p {
+  margin-bottom: .6rem;
+}
+
+.prayer-text p:last-child { margin-bottom: 0; }
+
+/* Psalm stanza break */
+.stanza-break {
+  height: .6rem;
+}
+
+/* ---------- Scripture Citation ---------- */
+.citation {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  letter-spacing: .09em;
+  color: var(--text-citation);
+  text-transform: uppercase;
+  margin-top: .9rem;
+  text-align: right;
+}
+
+/* ---------- Response / Verse ---------- */
+.response {
+  font-size: .9rem;
+  color: var(--text-secondary);
+  margin: .5rem 0;
+  padding-left: 1rem;
+}
+
+.response strong {
+  color: var(--text-rubric);
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  margin-right: .4em;
+  font-style: normal;
+}
+
+/* ---------- Separator ---------- */
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--border-light);
+  margin: 1.75rem 0;
+  opacity: .5;
+}
+
+/* ---------- Collect / Closing Prayer ---------- */
+.collect {
+  font-size: .95rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.collect .amen {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--accent-gold);
+}
+
+/* ---------- Intercessions List ---------- */
+.intercessions {
+  list-style: none;
+  margin: .5rem 0;
+}
+
+.intercessions li {
+  font-size: .94rem;
+  padding: .4rem 0 .4rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.intercessions li:last-child { border-bottom: none; }
+
+.intercessions .response-part {
+  display: block;
+  font-style: italic;
+  color: var(--text-secondary);
+  font-size: .87rem;
+  margin-top: .15rem;
+}
+
+/* ---------- Lord's Prayer block ---------- */
+.lords-prayer {
+  font-size: .95rem;
+  line-height: 1.9;
+  color: var(--text-secondary);
+}
+
+/* ---------- Scrollbar (WebKit) ---------- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 3px; }
+
+/* ---------- Focus Styles ---------- */
+:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+  :root { --gap: 1.1rem; }
+
+  .header-inner { padding: .8rem 1rem 0; }
+
+  .day-nav button {
+    font-size: .7rem;
+    padding: .55rem .3rem;
+    letter-spacing: .02em;
+  }
+
+  .day-heading h1 { font-size: 1.25rem; }
+
+  .main-content { padding: var(--gap) 1rem; }
+
+  .prayer-section { padding: 1rem 1.1rem; }
+
+  .section-title { font-size: .98rem; }
+}
+
+@media (max-width: 360px) {
+  .day-nav button { font-size: .63rem; }
+}
